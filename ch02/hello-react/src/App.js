@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './App.css';
 
 class App extends Component {
   render() {
@@ -14,7 +15,7 @@ class App extends Component {
       msTransition: 'all'
     };
     return (
-      <div>
+      <div className='my-div'>
         <h1>리액트 안녕</h1>
         <h2>{text}</h2>
         { condition && '보여주세요' }
