@@ -20,6 +20,13 @@ class App extends Component {
         <h2>{text}</h2>
         { condition && '보여주세요' }
         <div style={style}></div>
+        
+        <form>
+          First name:<br />
+          <input type='text' name='firstname' /><br />
+          Last name:<br />
+          <input type='text' name='lastname' /><br />
+        </form>
       </div>
     );
   }
