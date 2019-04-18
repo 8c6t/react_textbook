@@ -16,17 +16,17 @@ class App extends Component {
     };
     return (
       <div className='my-div'>
+        {/* 요소 밖에서는 이렇게 작성 */}
         <h1>리액트 안녕</h1>
         <h2>{text}</h2>
         { condition && '보여주세요' }
-        <div style={style}></div>
-        
-        <form>
-          First name:<br />
-          <input type='text' name='firstname' /><br />
-          Last name:<br />
-          <input type='text' name='lastname' /><br />
-        </form>
+        <div style={style}
+          // self-closed 태그에서만 작동하는 주석
+          // 마지막 />가 꼭 새 줄에 있어야 함.
+          /* 블럭 주석도 사용 가능 */
+        />
+        // 이곳에 쓰는 주석은 렌더링 됨
+        /* 주석 사용 불가 */        
       </div>
     );
   }
