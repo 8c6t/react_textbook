@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import Button from './components/Button';
+import StyledComponent from './StyledComponent';
 
 class App extends Component {
   render() {
-    return (
-      <Button>버튼</Button>
-    );
+    return <StyledComponent />
   }
 }
 
