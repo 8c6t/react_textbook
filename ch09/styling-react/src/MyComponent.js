@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames/bind';
-import styles from './CSSModule.module.css';
+import styles from './CSSModule.module.scss';
 
 const cx = classNames.bind(styles);
 
@@ -14,9 +14,9 @@ const cx = classNames.bind(styles);
   classNames('one', myClass, { myCondition: true }); // 'one hello myCondition' 
 */
 
-const MyComponent = ({ inverted, theme }) => {
+const MyComponent = ({ isInverted, theme }) => {
   return (
-    <div className={cx('wrapper', inverted)}>
+    <div className={cx('wrapper', { 'inverted' : isInverted } )}>
       Hello <span className={cx(theme)}>React</span>
     </div>
   )
