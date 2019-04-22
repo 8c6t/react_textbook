@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import MyComponent from './MyComponent';
+import Button from './components/Button';
 
 class App extends Component {
   render() {
     return (
-      <MyComponent isInverted={true} theme='something' />
+      <Button>버튼</Button>
     );
   }
 }
