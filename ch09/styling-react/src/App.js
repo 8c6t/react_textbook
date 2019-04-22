@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import CSSModule from './CSSModule';
+import MyComponent from './MyComponent';
 
 class App extends Component {
   render() {
     return (
-      <CSSModule />
+      <MyComponent inverted={false} theme='something' />
     );
   }
 }
