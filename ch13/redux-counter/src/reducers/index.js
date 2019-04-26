@@ -1,15 +1,69 @@
-import number from './number';
-import color from './color';
-import { combineReducers } from 'redux';
+import * as types from '../actions/ActionTypes';
 
-/* 
-  서브 리듀서들을 하나로 합침
-  combineReducers를 실행하고 나면,
-  나중에 store 형태를 파라미터로 전달한 객체 모양대로 만듬
-*/
-const reducers = combineReducers({
-  numberData: number,
-  colorData: color
-});
+const initialState = {
+  counters: [
+    {
+      color: 'black',
+      number: 0
+    }
+  ]
+};
 
-export default reducers;
+function counter(state = initialState, action) {
+  // 레퍼런스 생성
+  const { counters } = state;
+
+  switch(action.type) {
+    case types.CREATE:
+      return {
+        counters: [
+          ...counters,
+          {
+            color: action.color,
+            number: 0
+          }
+        ]
+      };
+    case types.REMOVE:
+      return {
+        counters: counters.slice(0, counters.length - 1)
+      };
+    case types.INCREMENT:
+      return {
+        counters: [
+          ...counters.slice(0, action.index),
+          {
+            ...counters[action.index],
+            number: counters[action.index].number + 1
+          },
+          ...counters.slice(action.index + 1, counters.length)
+        ]
+      };
+    case types.DECREMENT:
+      return {
+        counters: [
+          ...counters.slice(0, action.index),
+          {
+            ...counters[action.index],
+            number: counters[action.index].number - 1
+          },
+          ...counter.slice(action.index + 1, counters.length)
+        ]
+      };
+    case types.SET_COLOR:
+      return {
+        counters: [
+          ...counters.slice(0, action.index),
+          {
+            ...counters[action.index],
+            color: action.color
+          },
+          ...counter.slice(action.index + 1, counters.length)
+        ]
+      }
+    default:
+      return state;
+  }
+}
+
+export default counter;
