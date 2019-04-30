@@ -1,4 +1,5 @@
 import { handleActions, createAction } from 'redux-actions';
+import { pender } from 'redux-pender';
 import axios from 'axios';
 
 function getPostAPI(postId) {
@@ -6,18 +7,17 @@ function getPostAPI(postId) {
 }
 
 const GET_POST = 'GET_POST'
-const GET_POST_PENDING = 'GET_POST_PENDING';
-const GET_POST_SUCCESS = 'GET_POST_SUCCESS';
-const GET_POST_FAILURE = 'GET_POST_FAILURE';
 
-export const getPost = (postId) => ({
-  type: GET_POST,
-  payload: getPostAPI(postId)
-});
+/* 
+  redux-pender의 액션 구조는 Flux standard action
+  (https://github.com/acdlite/flux-standard-action)을 따르기 때문에
+  createAction으로 액션을 만들 수 있음.
+  두번째 파라미터는 Promise를 반환하는 함수여야 함
+*/
+export const getPost = createAction(GET_POST, getPostAPI);
 
 const initialState = {
-  pending: false,
-  error: false,
+  // 요청 상태, 오류 여부를 penderReducer가 담당하므로 직접 관리할 필요가 없음
   data: {
     title: '',
     body: ''
@@ -25,30 +25,33 @@ const initialState = {
 }
 
 export default handleActions({
-  [GET_POST_PENDING]: (state, action) => {
-    return {
-      ...state,
-      pending: true,
-      error: false
-    };
-  },
-  [GET_POST_SUCCESS]: (state, action) => {
-    const { title, body } = action.payload.data;
+  ...pender({
+    /* 
+      type이 주어지면 이 type에 접미사를 붙인 액션 핸들러들이 담긴 객체를 만듬
 
-    return {
-      ...state,
-      pending: false,
-      data: {
-        title, 
-        body
+      요청 중일 때와 실패 했을 때 추가로 해야 할 작업이 있다면
+      onPending: (state, action) => state,
+      onFailure: (state, action) => state
+      를 추가
+    */
+    type: GET_POST,
+    // 성공 시 해야 할 작업이 따로 없다면 이 함수도 생략해도 됨
+    onSuccess: (state, action) => {
+      const { title, body } = action.payload.data;
+      return {
+        data: {
+          title, 
+          body
+        }
       }
-    };
-  },
-  [GET_POST_FAILURE]: (state, action) => {
-    return {
-      ...state,
-      pending: false,
-      error: true
+    },
+    onCancel: (state, action) => {
+      return {
+        data: {
+          title: '취소됨',
+          body: '취소됨'
+        }
+      }
     }
-  }
+  })
 }, initialState);
